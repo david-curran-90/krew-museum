@@ -1,0 +1,67 @@
+{{- if or (eq .Values.persistence.type "pvc") (not .Values.persistence.enabled) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "krewmuseum.name" . }}
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- end }}
+  labels:
+    {{- include "krewmuseum.labels" . | nindent 4 }}
+  {{- if .Values.annotations -}}
+  annotations:
+    {{- include "krewmuseum.annotations" . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "krewmuseum.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "krewmuseum.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{ toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ include "krewmuseum.name" . }}
+        image: {{ .Values.image.name }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.env }}
+        env:
+          {{- toYaml .Values.env | nindent 8 }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe:
+          {{- toYaml .Values.readinessProbe | nindent 10}}
+        {{- end }}
+        {{- if .Values.livenessProbe }}
+        livenessProbe:
+          {{- toYaml .Values.livenessProbe | nindent 10}}
+        {{- end }}
+        {{- if .Values.resources }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        volumeMounts:
+        {{- range .Values.persistence.mounts }}
+        - name:  {{ .name }}
+          mountPath: {{ .mountPath }}
+          readOnly: {{ .readOnly }}
+        {{- end }}
+        {{- end }}
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.image.pullSecrets }}
+      - name: {{ .name }}
+      {{- end }}
+      {{- end -}}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        {{- toYaml .Values.persistence.volumes | nindent 8}}
+      {{- end }}
+{{- end -}}

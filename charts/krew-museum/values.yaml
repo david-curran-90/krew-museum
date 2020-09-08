@@ -1,0 +1,51 @@
+nameOverride: ""
+namespaceOverride: ""
+
+image:
+  name: ghcr.io/schizoid90/krew-museum:latest
+  pullPolicy: IfNotPresent
+  pullSecrets: ""
+
+env: []
+
+readinessProbe:
+  httpGet:
+    path: /status
+    port: 8090
+  initialDelaySeconds: 3
+  periodSeconds: 3
+livenessProbe:
+  httpGet:
+    path: /status
+    port: 8090
+  initialDelaySeconds: 3
+  periodSeconds: 3
+
+gracePeriod: 10
+resources: []
+
+tolerations: {}
+
+replicas: 1
+
+service:
+  enabled: true
+
+ingress:
+  enabled: true
+
+persistence:
+  enabled: true
+  accessMode: "ReadWriteOnce"
+  mounts:
+  - name: plugin-dir
+    mountPath: /plugins
+    readOnly: false
+  volumes:
+  - name: plugin-dir
+    hostPath:
+      path: /plugins
+      type: Directory
+  type: statefulset
+  storageClass: ""
+  size: 2G
