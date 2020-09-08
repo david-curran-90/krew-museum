@@ -1,6 +1,6 @@
 FROM golang:1.15 as build
 WORKDIR /krew-museum
-COPY src .
+COPY src /krew-museum/src
 RUN apt-get update && apt-get upgrade -y \
   && mkdir bin/ \
   && go get github.com/gorilla/mux \
@@ -9,5 +9,5 @@ RUN apt-get update && apt-get upgrade -y \
 FROM alpine:latest
 COPY --from=build /krew-museum/bin/krew-museum krew-museum
 RUN chmod +x /krew-museum
-EXPOSE 8080
+EXPOSE 8090
 ENTRYPOINT ["/krew-museum"]
