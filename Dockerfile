@@ -1,6 +1,6 @@
 FROM golang:1.15 as build
 WORKDIR /krew-museum
-COPY src/ .
+COPY src .
 RUN apt-get update && apt-get upgrade -y \
   && mkdir bin/ \
   && go get github.com/gorilla/mux \
