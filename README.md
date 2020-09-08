@@ -1,4 +1,6 @@
 # krew-museum
+![Release Charts](https://github.com/schizoid90/krew-museum/workflows/Release%20Charts/badge.svg)
+![Docker](https://github.com/schizoid90/krew-museum/workflows/Docker/badge.svg)
 
 Go based private repository for packaged krew plugins
 
@@ -64,3 +66,42 @@ View pacakges
 ```shell
 curl https:/krew-museum/packages
 ```
+
+## Values
+
+| Value                     | Description                                                   | Default                                    |
+|---------------------------|---------------------------------------------------------------|--------------------------------------------|
+| env                       | Set environment variables                                     | `[]`                                       |
+| gracePeriod               | Time to wait for pod to end gracefully (seconds)              | `10`                                       |
+| image.name                | URI of container image                                        | `ghcr.io/schizoid90/krew-museum:{version}` |
+| image.pullPolicy          | PullPolicy for the image                                      | `IfNotPresent`                             |
+| image.pullSecrets         | Name of secret containing container registry details          | `""`                                       |
+| ingress.enabled           | Enable Kubernetes ingress for the application                 | `false`                                    |
+| ingress.hostName          | Ingress hostname                                              | `""`                                       |
+| ingress.path              | Path to route in the ingress                                  | `"/"`                                      |
+| ingress.tls.enabled       | Enable TLS                                                    | `false`                                    |
+| ingress.tls.hosts         | TLS hosts                                                     | `[]`                                       |
+| ingress.tls.secretName    | Secret containing TLS cert and key                            | `""`                                       |
+| livenessProbe             | Configure LivenessProbe                                       | see values.yaml                            |
+| nameOverride              | Set the app and container name                                | `""`                                       |
+| namespaceOverride         | Set the app namespace                                         | `""`                                       |
+| persistence.accessMode    | Set the access mode on the storage                            | `"ReadWriteOnce"`                          |
+| persistence.enabled       | Enable/Disable persistent storage (required for statefulsets) | `true`                                     |
+| persistence.mounts        | Confgiure container mounts                                    | see values.yaml                            |
+| persistence.size          | Configure size of storage                                     | `2G`                                       |
+| persistence.storageClass  | Set the StorageClass                                          | `""`                                       |
+| persistence.type          | Set the type of persistence ["pvc"|"statefulset"]             | `"statefulset"`                            |
+| persistence.volumes       | Configure storage volumes                                     | see values.yaml                            |
+| readinessProbe            | Configure ReadinessProbs                                      | see values.yaml                            |
+| replicas                  | Number of replicas to run                                     | `1`                                        |
+| resources                 | Set resource limits/requests                                  | `[]`                                       |
+| service.enabled           | Enable Kubernetes service for the application                 | `false`                                    |
+| service.type              | Type of service ["LoadBalancer"|"NodePort"|"ClusterIP"]       | `NodePort`                                 |
+| service.nodePort          | Specify the NodePort (requires service.type: NodePort)        | `""`                                       |
+| service.sourceRanges      | Specify source ranges (requires service.type: LoadBalancer)   | `{}`                                       |
+| service.clusterIP         | Specify cluster IP (requires service.type: ClusterIP)         | `""`                                       |
+| serivce.externalPort      | Set the port for the service to expose on                     | `8090`                                     |
+| service.targetPort        | Set the target port of the pod                                | `8090`                                     |
+| service.portProtocol      | Set port protcol                                              | `tcp`                                      |
+| service.portName          | Set the name of the service port                              | `"krew-museum"`                            |
+| tolerations               | Tolerate node taints                                          | `[]`                                       |

@@ -1,0 +1,32 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "krewmuseum.name" . }}
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- end }}
+  labels:
+    {{- include "krewmuseum.labels" . | nindent 4 }}
+  {{- if .Values.annotations -}}
+  annotations:
+    {{- include "krewmuseum.annotations" . | nindent 4 }}
+  {{- end }}  
+spec:
+  rules:
+  - host: {{ .Values.ingress.hostName }}
+    http:
+      paths:
+      - path: {{ .Values.ingress.path }}
+        backend:
+          serviceName: {{ include "krewmuseum.serviceName" . }}
+          servicePort: {{ .Values.service.externalPort }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts:
+  {{- range .Values.ingress.tls.hosts }}
+    - {{ . }}
+  {{- end }}
+    secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end -}}
+{{- end -}}

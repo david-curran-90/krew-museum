@@ -54,3 +54,10 @@ Stateful set persistence
       requests:
         storage: {{ .Values.persistence.size | quote }}
 {{- end -}}
+
+{{/*
+Build service name
+*/}}
+{{- define "krewmuseum.serviceName" -}}
+{{ include "krewmuseum.name" . }}-svc
+{{- end -}}

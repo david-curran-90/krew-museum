@@ -1,19 +1,25 @@
+# nameOverride sets the name of the deployment/statefulset and container
 nameOverride: ""
+# namespaceOverride sets the namespace
 namespaceOverride: ""
 
+# env configure environment variables for the container
+env: []
+
+# image set image details, URI, PullPolicy and PullSecrets
 image:
-  name: ghcr.io/schizoid90/krew-museum:latest
+  name: ghcr.io/schizoid90/krew-museum:0.0.1
   pullPolicy: IfNotPresent
   pullSecrets: ""
 
-env: []
-
+# readienessProbe configure a readiness probe for the container
 readinessProbe:
   httpGet:
     path: /status
     port: 8090
   initialDelaySeconds: 3
   periodSeconds: 3
+# readienessProbe configure a liveness probe for the container
 livenessProbe:
   httpGet:
     path: /status
@@ -21,31 +27,65 @@ livenessProbe:
   initialDelaySeconds: 3
   periodSeconds: 3
 
+# gracePeriod set terminationGracePeriodSeconds
 gracePeriod: 10
+
+# ingress configures details for a ingress object
+ingress:
+  enabled: false
+  hostName: ""
+  tls:
+    enabled: false
+    hosts: []
+    secretName: ""
+  path: "/"
+# resources sets resource limits and requests
 resources: []
+#  limits:
+#    memory: 10Mi
+#    cpu: 10m
+#  requests:
+#    memory: 5Mi
+#    cpu:1m
 
-tolerations: {}
 
+
+# replicas configure how many replicas of the pod to run
 replicas: 1
 
+# service configures details for a service object
 service:
-  enabled: true
+  enabled: false
+  type: "NodePort"
+  nodePort: ""
+  loadBalancerSourceRanges: {}
+  clusterIP: ""
+  externalPort: 8090
+  targetPort: 8090
+  portProtocol: tcp
+  portName: "krew-museum"
 
-ingress:
-  enabled: true
+# tolerations bypass node taints 
+tolerations: {}
 
+# persistence set up persistent storage
 persistence:
   enabled: true
   accessMode: "ReadWriteOnce"
+  # mounts configure container mounts
   mounts:
   - name: plugin-dir
     mountPath: /plugins
     readOnly: false
+  # volumes configure volumes details
   volumes:
   - name: plugin-dir
     hostPath:
       path: /plugins
       type: Directory
+  # type statefulset (statefulset) or pvc (deployment)
   type: statefulset
+  # storageClass defines which StorageClass to use
   storageClass: ""
+  # size defines amount of storage to use
   size: 2G
