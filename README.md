@@ -90,13 +90,13 @@ curl https:/krew-museum/packages
 | persistence.mounts        | Confgiure container mounts                                    | see values.yaml                            |
 | persistence.size          | Configure size of storage                                     | `2G`                                       |
 | persistence.storageClass  | Set the StorageClass                                          | `""`                                       |
-| persistence.type          | Set the type of persistence ["pvc"|"statefulset"]             | `"statefulset"`                            |
+| persistence.type          | Set the type of persistence ("pvc, statefulset")              | `"statefulset"`                            |
 | persistence.volumes       | Configure storage volumes                                     | see values.yaml                            |
 | readinessProbe            | Configure ReadinessProbs                                      | see values.yaml                            |
 | replicas                  | Number of replicas to run                                     | `1`                                        |
 | resources                 | Set resource limits/requests                                  | `[]`                                       |
 | service.enabled           | Enable Kubernetes service for the application                 | `false`                                    |
-| service.type              | Type of service ["LoadBalancer"|"NodePort"|"ClusterIP"]       | `NodePort`                                 |
+| service.type              | Type of service ("LoadBalancer, NodePort, ClusterIP")         | `NodePort`                                 |
 | service.nodePort          | Specify the NodePort (requires service.type: NodePort)        | `""`                                       |
 | service.sourceRanges      | Specify source ranges (requires service.type: LoadBalancer)   | `{}`                                       |
 | service.clusterIP         | Specify cluster IP (requires service.type: ClusterIP)         | `""`                                       |
