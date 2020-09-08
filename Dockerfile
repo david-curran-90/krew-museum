@@ -3,7 +3,7 @@ WORKDIR /krew-museum
 COPY src .
 RUN apt-get update && apt-get upgrade -y \
   && mkdir bin/ \
-  && go get github.com/gorilla/mux
+  && go get github.com/gorilla/mux \
   && CGO_ENABLED=0 GOOS=linux go build -tags netgo -a -v -o bin/schedulergo api/*
 
 FROM alpine:latest
