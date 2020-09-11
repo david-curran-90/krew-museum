@@ -10,7 +10,7 @@ env: []
 image:
   name: ghcr.io/schizoid90/krew-museum:0.0.1
   pullPolicy: IfNotPresent
-  pullSecrets: ""
+  pullSecrets: []
 
 # readienessProbe configure a readiness probe for the container
 readinessProbe:
@@ -62,7 +62,7 @@ service:
   clusterIP: ""
   externalPort: 8090
   targetPort: 8090
-  portProtocol: tcp
+  portProtocol: TCP
   portName: "krew-museum"
 
 # tolerations bypass node taints 
