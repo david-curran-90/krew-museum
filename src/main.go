@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	bindserver = "127.0.0.1"
+	bindserver = "0.0.0.0"
 	bindport   = 8090
 	pkgpath = "plugins"
 )

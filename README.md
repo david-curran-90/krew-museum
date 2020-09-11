@@ -47,7 +47,7 @@ The REST API is quite simple with just a few endpoints
 Upload a package
 
 ```shell
-curl -X POST -F "file=@pacakge.tar.gz" https://krew-museum/upload
+curl -X POST -F "file=@pacakge.1.0.0.zip" https://krew-museum/upload/package
 ```
 
 Download a pacge in your krew manifest
@@ -55,7 +55,7 @@ Download a pacge in your krew manifest
 ```yaml
 ...
     # 'uri' specifies .zip or .tar.gz archive URL of a plugin
-    uri: https://krew-museum/download/mypackage.1.0.0.zip
+    uri: https://krew-museum/download/package/package.1.0.0.zip
     # 'sha256' is the sha256sum of the package above
     sha256: sha256sumofpackage
 ...

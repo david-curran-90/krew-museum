@@ -20,7 +20,7 @@ type pluginList struct {
 UploadHandler Accepts a file and saves it to the filesystem
 
 POST
-https://krew-museum/upload
+https://krew-museum/upload/{plugin}
 */
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	file, err := UploadFileHelper(r)
