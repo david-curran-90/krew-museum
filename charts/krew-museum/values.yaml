@@ -3,6 +3,13 @@ nameOverride: ""
 # namespaceOverride sets the namespace
 namespaceOverride: ""
 
+# bindsever sets the IP address for the server to listen on
+bindserver: 0.0.0.0
+
+# bindport sets the port the server listens on
+# if you change this, also chage the readiness/liveness probes
+bindport: ""
+
 # env configure environment variables for the container
 env: []
 

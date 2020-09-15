@@ -12,6 +12,21 @@ Krew-museum stores files on the local filesystem.
 
 ## Installation
 
+The application defaults to listening on `127.0.0.1:8090`, this can be changed by setting the `BIND_SERVER` and `BIND_PORT` environment variables.
+
+```shell
+export BIND_SERVER=0.0.0.0
+export BIND_PORT=80
+```
+
+or in helm
+
+```yaml
+bindserver: 0.0.0.0
+bindport: 80
+```
+
+**N.B.: If changing the port in a values.yaml file you will need to edit the readiness and livenes probes**
 
 ### local installation
 
@@ -71,6 +86,8 @@ curl https:/krew-museum/packages
 
 | Value                     | Description                                                   | Default                                    |
 |---------------------------|---------------------------------------------------------------|--------------------------------------------|
+| bindport                  | Port the server binds to                                      | `80`                                       |
+| bindserver                | IP address the server listens on                              | `0.0.0.0`                                  |
 | env                       | Set environment variables                                     | `[]`                                       |
 | gracePeriod               | Time to wait for pod to end gracefully (seconds)              | `10`                                       |
 | image.name                | URI of container image                                        | `ghcr.io/schizoid90/krew-museum:{version}` |
