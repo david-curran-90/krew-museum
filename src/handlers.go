@@ -16,6 +16,11 @@ type pluginList struct {
 	Plugin string `json:"plugin"`
 }
 
+type packageList struct {
+	Plugin 	string `json:"plugin"`
+	Package string `json:"package"`
+}
+
 /*
 UploadHandler Accepts a file and saves it to the filesystem
 
@@ -37,6 +42,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	WebResult(w, status, msg)
 }
+
 
 /*
 DownloadHandler Takes a package name and offers it for download
@@ -106,6 +112,35 @@ func PluginListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     w.WriteHeader(http.StatusOK)
     w.Write(jsonbytes)
+}
+
+/*
+PluginPackageListHandler list packages for a specified plugin
+
+GET
+https://krew-museum/plugins/{plugin}
+*/
+func PluginPackageListHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	plugin := vars["plugin"]
+
+	var pk []packageList
+	pluginPath := fmt.Sprintf("%s/%s", pkgpath, plugin)
+
+	packages, err := ioutil.ReadDir(pluginPath)
+	if err != nil {
+		WebResult(w, http.StatusBadRequest, "Failed to get packages")
+	}
+
+	for _, p := range packages {
+		pk = append(pk, packageList{plugin, p.Name()})
+	}
+	jsonbytes, err :=json.Marshal(&pk)
+	chkErr(err)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusOK)
+    w.Write(jsonbytes)
+	
 }
 
 /*

@@ -52,6 +52,7 @@ func main() {
 	r.HandleFunc("/upload/{plugin}", UploadHandler).Methods("POST")
 	r.HandleFunc("/download/{plugin}/{package}", DownloadHandler)
 	r.HandleFunc("/plugins", PluginListHandler)
+	r.HandleFunc("/plugins/{plugin}", PluginPackageListHandler)
 	r.HandleFunc("/plugins/{plugin}", DeletePluginHandler).Methods("POST")
 	r.HandleFunc("/plugins/{plugin}/{package}", DeletePluginHandler).Methods("POST")
 	r.HandleFunc("/", StatusHandler)
