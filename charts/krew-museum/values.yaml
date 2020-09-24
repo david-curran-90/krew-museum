@@ -15,7 +15,7 @@ env: []
 
 # image set image details, URI, PullPolicy and PullSecrets
 image:
-  name: ghcr.io/schizoid90/krew-museum:0.0.1
+  name: ghcr.io/schizoid90/krew-museum:0.3.0
   pullPolicy: IfNotPresent
   pullSecrets: []
 
