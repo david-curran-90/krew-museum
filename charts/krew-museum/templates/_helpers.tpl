@@ -61,3 +61,16 @@ Build service name
 {{- define "krewmuseum.serviceName" -}}
 {{ include "krewmuseum.name" . }}-svc
 {{- end -}}
+
+{{/*
+set environment variables
+*/}}
+{{- define "krewmuseum.envs" -}}
+- name: BIND_SERVER
+  value: {{ default "127.0.0.1" .Values.bindserver}}
+- name: BIND_PORT
+  value: {{ default 8090 .Values.bindport}}
+{{- if .Values.env 
+{{- toYaml .Values.env }}
+{{- end }}
+{{- end -}}

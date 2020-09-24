@@ -107,3 +107,35 @@ func PluginListHandler(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     w.Write(jsonbytes)
 }
+
+/*
+DeletePluginHandler deletes selected plugin/package
+
+POST
+https://krew-museum/plugins/{plugin}/{package}
+https://krew-museum/plugins/{plugin}
+*/
+func DeletePluginHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var pkg string
+	for _, v := range vars {
+		if v == "package" {
+			pkg = vars["package"]
+		}
+	}
+
+	var delete string
+	var err error
+	if pkg == "" {
+		delete, err = DeletePluginHelper(r)
+	} else {
+		delete, err = DeletePackageHelper(r)
+	}
+	
+	if err != nil {
+		WebResult(w, http.StatusBadRequest, "Failed to delete")
+		panic(err)
+	} else {
+		WebResult(w, http.StatusOK, delete)
+	}
+}
