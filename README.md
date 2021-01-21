@@ -26,7 +26,7 @@ bindserver: 0.0.0.0
 bindport: 80
 ```
 
-**N.B.: If changing the port in a values.yaml file you will need to edit the readiness and livenes probes**
+**N.B.: If changing the port in a values.yaml file you will need to edit the readiness and liveness probes**
 
 ### local installation
 
@@ -57,7 +57,7 @@ The REST API is quite simple with just a few endpoints
 | /status   | View information about the repository |
 | /upload   | Upload a package                      |
 | /download | Download a pacakge                    |
-| /packages | View package information              |
+| /plugins  | View and manage plugins               |
 
 Upload a package
 
@@ -65,21 +65,27 @@ Upload a package
 curl -X POST -F "file=@pacakge.1.0.0.zip" https://krew-museum/upload/package
 ```
 
-Download a pacge in your krew manifest
+Download a package in your krew manifest
 
 ```yaml
 ...
     # 'uri' specifies .zip or .tar.gz archive URL of a plugin
-    uri: https://krew-museum/download/package/package.1.0.0.zip
+    uri: https://krew-museum/download/plugin/package.1.0.0.zip
     # 'sha256' is the sha256sum of the package above
     sha256: sha256sumofpackage
 ...
 ```
 
-View pacakges
+View plugins
 
 ```shell
-curl https:/krew-museum/packages
+curl https:/krew-museum/plugins
+```
+
+View packages for a plugin
+
+```shell
+curl https://krew-museum/plugins/package
 ```
 
 ## Values
