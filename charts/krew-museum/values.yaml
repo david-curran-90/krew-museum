@@ -4,11 +4,13 @@ nameOverride: ""
 namespaceOverride: ""
 
 # bindsever sets the IP address for the server to listen on
+# default 127.0.0.1 if empty
 bindserver: 0.0.0.0
 
 # bindport sets the port the server listens on
 # if you change this, also chage the readiness/liveness probes
-bindport: ""
+# default 8090 if empty
+bindport: "8090"
 
 # env configure environment variables for the container
 env: []
@@ -46,6 +48,9 @@ ingress:
     hosts: []
     secretName: ""
   path: "/"
+
+# nodeSelector
+nodeSelector: {}
 # resources sets resource limits and requests
 resources: []
 #  limits:

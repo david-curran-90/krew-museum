@@ -69,8 +69,8 @@ set environment variables
 - name: BIND_SERVER
   value: {{ default "127.0.0.1" .Values.bindserver}}
 - name: BIND_PORT
-  value: {{ default 8090 .Values.bindport}}
-{{- if .Values.env 
+  value: {{ default "8090" .Values.bindport | quote}}
+{{- if .Values.env }}
 {{- toYaml .Values.env }}
 {{- end }}
 {{- end -}}

@@ -2,4 +2,4 @@ apiVersion: v2
 appVersion: "0.3.0"
 description: Repository of Krew plugins
 name: krew-museum
-version: 0.2.0
+version: 0.3.0
