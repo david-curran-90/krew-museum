@@ -1,11 +1,6 @@
 name: Release Charts
 
-on:
-  push:
-    tags:
-      - v*
-  workflow_dispatch:
-    inputs: ""
+on: workflow_dispatch
 
 jobs:
   release:
