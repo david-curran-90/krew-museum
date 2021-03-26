@@ -22,6 +22,12 @@ spec:
       labels:
         {{- include "krewmuseum.labels" . | nindent 8 }}
     spec:
+      {{- if .Values.nodeSelector }}
+      {{ with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
       {{- if .Values.tolerations }}
       tolerations:
         {{ toYaml .Values.tolerations | nindent 8 }}
@@ -30,10 +36,8 @@ spec:
       - name: {{ include "krewmuseum.name" . }}
         image: {{ .Values.image.name }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        {{- if .Values.env }}
         env:
-          {{- toYaml .Values.env | nindent 8 }}
-        {{- end }}
+          {{- include "krewmuseum.envs" | nindent 8 }}
         {{- if .Values.readinessProbe }}
         readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 10}}

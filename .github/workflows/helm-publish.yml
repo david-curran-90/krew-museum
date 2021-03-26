@@ -1,9 +1,6 @@
 name: Release Charts
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
 
 jobs:
   release:
@@ -21,5 +18,8 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.0.0
+        with:
+          charts_repo_url: "https://schizoid90.github.io/krew-museum"
+          charts_dir: "charts"
         env:
           CR_TOKEN: "${{ secrets.CR_PAT }}"

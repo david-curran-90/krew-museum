@@ -48,3 +48,34 @@ func UploadFileHelper(r *http.Request) (string, error) {
 	//here we save our file to our path
 	return handler.Filename, nil
 }
+
+/*
+DeletePluginHelper delete a plugin for DeletePackageHandler
+*/
+func DeletePluginHelper(r *http.Request) (string, error) {
+	vars := mux.Vars(r)
+	plugin := vars["plugin"]
+	pluginLocation := fmt.Sprintf("%s/%s", pkgpath, plugin)
+
+	err := os.RemoveAll(pluginLocation)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("Plugin %s deleted", plugin), nil
+}
+
+/*
+DeletePackageHelper deletes a package for DeletePackageHandler
+*/
+func DeletePackageHelper(r *http.Request) (string, error) {
+	vars := mux.Vars(r)
+	plugin := vars["plugin"]
+	pkg := vars["package"]
+	pkgLocation := fmt.Sprintf("%s/%s/%s", pkgpath, plugin, pkg)
+
+	err := os.Remove(pkgLocation)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("Package %s/%s deleted", plugin, pkg), nil
+}

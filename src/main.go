@@ -9,10 +9,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const (
+	pkgpath = "plugins"
+)
+
 var (
 	bindserver = "127.0.0.1"
-	bindport   = 8090
-	pkgpath = "plugins"
+	bindport   = "8090"
 )
 
 /*
@@ -33,6 +36,14 @@ func chkErr(err error) {
 }
 
 func main() {
+	// set bindserver and bindport from environment
+	if os.Getenv("BIND_SERVER") != "" {
+		bindserver = os.Getenv("BIND_SERVER")
+	}
+	if os.Getenv("BIND_PORT") != "" {
+		bindport = os.Getenv("BIND_PORT")
+	}
+
 	_ = os.Mkdir(pkgpath, 0644)
 
 	r := mux.NewRouter()
@@ -41,10 +52,13 @@ func main() {
 	r.HandleFunc("/upload/{plugin}", UploadHandler).Methods("POST")
 	r.HandleFunc("/download/{plugin}/{package}", DownloadHandler)
 	r.HandleFunc("/plugins", PluginListHandler)
+	r.HandleFunc("/plugins/{plugin}", PluginPackageListHandler)
+	r.HandleFunc("/plugins/{plugin}", DeletePluginHandler).Methods("POST")
+	r.HandleFunc("/plugins/{plugin}/{package}", DeletePluginHandler).Methods("POST")
 	r.HandleFunc("/", StatusHandler)
-	fmt.Printf("Running on %s:%d\n", bindserver, bindport)
+	fmt.Printf("Running on %s:%s\n", bindserver, bindport)
 
-	err := http.ListenAndServe(fmt.Sprintf("%s:%d", bindserver, bindport), r)
+	err := http.ListenAndServe(fmt.Sprintf("%s:%s", bindserver, bindport), r)
 	chkErr(err)
 }
 
